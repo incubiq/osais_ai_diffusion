@@ -1,0 +1,11 @@
+
+*__pycache__*
+readme.txt
+
+_input/*
+_output/*
+
+.vscode/
+
+osais_debug.py
+env_docker

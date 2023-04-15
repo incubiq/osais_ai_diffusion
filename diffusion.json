@@ -1,0 +1,142 @@
+{
+    "name": "diffusion",
+    "location": "http://0.0.0.0",
+    "port": 5004,
+    "version": "1.2.2",
+    "description": "Image morphing via Stable Diffusion AI",
+    "origin": "todo",
+    "default_cost": 2000,
+    "params": [{
+        "in": "word",
+        "out": "--prompt",
+        "isMandatory": true,
+        "type": "string",
+        "default": null,
+        "ui": {
+            "title": "Input (text and/or image)",
+            "placeholder": "eg: gold coin from rome 100 BC, full size",
+            "widget": "uiEdit"
+        }
+    }, {
+        "in": "url_upload",
+        "out": "url_upload",
+        "isMandatory": false,
+        "type": "string",
+        "default": null,
+        "ui": {
+            "widget": "uiSelectPicture"
+        }
+    }, {
+        "in": "steps",
+        "out": "--ddim_steps",
+        "isMandatory": true,
+        "type": "int",
+        "default": 20,
+        "freeAccess":  {"$max": 100},
+        "ui": {
+            "title": "Step Count",
+            "tooltip": "",
+            "min": 1,            
+            "max": 200,            
+            "unit": "",
+            "widget": "uiRangeSlider",
+            "column": 1
+        }
+    }, {
+        "in": "guidance",
+        "out": "--scale",
+        "isMandatory": true,
+        "type": "float",
+        "default": 7.5,
+        "ui": {
+            "title": "Guidance scale",
+            "tooltip": "",
+            "displayAs%": true,            
+            "unit": "",            
+            "min": 1,            
+            "max": 12,
+            "widget": "uiRangeSlider",
+            "column": 1,
+            "conditional": {"$null": "url_upload"}
+        }
+    }, {
+        "in": "strength",
+        "out": "--strength",
+        "isMandatory": true,
+        "type": "float",
+        "default": 0.5,
+        "ui": {
+            "title": "Strength",
+            "tooltip": "",
+            "displayAs%": true,            
+            "unit": "",            
+            "min": 0,            
+            "max": 1,
+            "widget": "uiRangeSlider",
+            "column": 1,
+            "conditional": {"$exist": "url_upload"}
+        }
+    }, {
+        "in": "width",
+        "out": "--W",
+        "isMandatory": true,
+        "type": "int",
+        "default": 512,
+        "accept": {
+            "$in":[320, 384, 448, 512, 640, 768],
+            "display":["320x320", "384x384", "448x448", "512x512", "640x640", "768x768"]
+        },
+        "freeAccess": {"$max": 512},
+        "ui": {
+            "title": "Output resolution",
+            "unit": "px",
+            "widget": "uiMultiToggle",
+            "autofill": ["height"],
+            "column": 2
+        }
+    }, {
+        "in": "height",
+        "out": "--H",
+        "isMandatory": true,
+        "type": "int",
+        "default": 512,
+        "accept": {"$in":[320, 384, 448, 512, 640, 768]},
+        "freeAccess":  {"$max": 512},
+        "ui": {
+            "unit": "px"
+        }
+    }, {
+        "in": "cimg",
+        "out": "--n_samples",
+        "isMandatory": true,
+        "type": "int",
+        "default": 1,
+        "accept": {
+            "$in":[1, 2, 3, 4],
+            "display":["1", "2", "3", "4"]
+        },
+        "ui": {
+            "title": "Number of images to generate",
+            "widget": "uiMultiToggle",
+            "column": 2
+        }
+    }, {
+        "in": "seed",
+        "out": "--seed",
+        "isMandatory": true,
+        "type": "function",
+        "default": "$random"
+    }, {
+        "in": "model",
+        "out": "--ckpt",
+        "isMandatory": true,
+        "type": "string",
+        "default": "models/ldm/stable-diffusion-v1/sd-v1-4.ckpt"
+    }, {
+        "in": "output",
+        "out": "--output",
+        "isMandatory": true,
+        "type": "function",
+        "default": "$output_uid.ext"
+    }]
+}
